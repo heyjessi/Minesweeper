@@ -54,6 +54,7 @@ public boolean isWon()
 public void displayLosingMessage()
 {
   //your code here
+  System.out.println("You lose!");
 }
 public void displayWinningMessage()
 {
@@ -79,6 +80,7 @@ public class MSButton
     marked = clicked = false;
     Interactive.add( this ); // register it with the manager
   }
+  //Marked means that it hasn't been clicked on
   public boolean isMarked()
   {
     return marked;
@@ -93,6 +95,59 @@ public class MSButton
   {
     clicked = true;
     //your code here
+    if(keyPressed ==true)
+    {
+        marked = !marked;
+        if(marked == false)
+        {
+            clicked = false;
+            System.out.println("one");
+        }
+        
+    }
+    else if(bombs.contains(this))
+        {
+            displayLosingMessage();
+            System.out.println("two");
+        }
+    else if(countBombs(r,c)>0)
+        {
+            setLabel(Integer.toString(countBombs(r,c)));
+            System.out.println("three");
+        }
+    else
+    {   
+            if (!buttons[r-1][c].isMarked() && isValid(r-1, c))
+            {
+                buttons[r-1][c].mousePressed();
+                System.out.println("four");
+            }
+
+            if (!buttons[r][c+1].isMarked() && isValid(r, c+1))
+            {
+                buttons[r][c+1].mousePressed();
+            }
+            if (!buttons[r+1][c+1].isMarked() && isValid(r+1, c+1))
+            {
+                buttons[r+1][c+1].mousePressed();
+            }
+            if (!buttons[r+1][c].isMarked() && isValid(r+1, c))
+            {
+                buttons[r+1][c].mousePressed();
+            }
+            if ( !buttons[r+1][c-1].isMarked() && isValid(r+1, c-1))
+            {
+                buttons[r+1][c-1].mousePressed();
+            }
+            if (!buttons[r][c-1].isMarked() && isValid(r, c-1))
+            {
+                buttons[r][c-1].mousePressed();
+            }
+            if (!buttons[r-1][c-1].isMarked() && isValid(r-1, c-1))
+            {
+                buttons[r-1][c-1].mousePressed();
+            }   
+        }
   }
 
   public void draw () 
@@ -117,12 +172,48 @@ public class MSButton
   public boolean isValid(int r, int c)
   {
     //your code here
+    if(r>=0 && r<NUM_ROWS && c >= 0 && c <NUM_COLS){
+        return true;
+    }
     return false;
   }
   public int countBombs(int row, int col)
   {
     int numBombs = 0;
     //your code here
+    //took out the isMarked() function bc it wont run when the button is unmarked (clicked on) and therefore not show the label
+    if (bombs.contains(buttons[row-1][col])&& isValid(row-1, col))
+    {
+        numBombs++;
+    }
+    if (bombs.contains(buttons[row-1][col+1]) && isValid(row-1, col+1))
+    {
+        numBombs++;
+    }
+    if (bombs.contains(buttons[row][col+1])&& isValid(row, col+1))
+    {
+        numBombs++;
+    }
+    if (bombs.contains(buttons[row+1][col+1])&& isValid(row+1, col+1))
+    {
+        numBombs++;
+    }
+    if (bombs.contains(buttons[row+1][col]) && isValid(row+1, col))
+    {
+        numBombs++;
+    }
+    if (bombs.contains(buttons[row+1][col-1]) && isValid(row+1, col-1))
+    {
+        numBombs++;
+    }
+    if (bombs.contains(buttons[row][col-1]) && isValid(row, col-1))
+    {
+        numBombs++;
+    }
+    if (bombs.contains(buttons[row-1][col-1]) && isValid(row-1, col-1))
+    {
+        numBombs++;
+    }
     return numBombs;
   }
 }
