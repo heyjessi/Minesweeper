@@ -26,20 +26,23 @@ void setup ()
 
 //null pointer exception
 public void setBombs()
+{
+  bombs = new ArrayList <MSButton>();
+  //your code
+  for(int i =0; i< 20; i++)
   {
-    bombs = new ArrayList <MSButton>();
-    //your code
-    int row = (int)(Math.random()*NUM_ROWS);
-    int col = (int)(Math.random()*NUM_COLS);
-    if (bombs.contains(buttons[row][col])== false)
-    {
-      bombs.add(buttons[row][col]);
-    }
-    System.out.println(row);
-    System.out.println(col);
-  }
+      int row = (int)(Math.random()*NUM_ROWS);
+      int col = (int)(Math.random()*NUM_COLS);
+      if (bombs.contains(buttons[row][col])== false)
+      {
+        bombs.add(buttons[row][col]);
+      }
+      System.out.println(row);
+      System.out.println(col);
+}
+}
 
-  
+
 public void draw ()
 {
   background( 0 );
@@ -94,68 +97,48 @@ public class MSButton
   public void mousePressed () 
   {
     clicked = true;
-    //your code here
-    if(keyPressed ==true)
+    if (keyPressed ==true)
     {
-        marked = !marked;
-        if(marked == false)
-        {
-            clicked = false;
-            System.out.println("one");
-        }
-        
-    }
-    else if(bombs.contains(this))
-        {
-            displayLosingMessage();
-            System.out.println("two");
-        }
-    else if(countBombs(r,c)>0)
-        {
-            setLabel(Integer.toString(countBombs(r,c)));
-            System.out.println("three");
-        }
-    else
-    {   
-            if (!buttons[r-1][c].isMarked() && isValid(r-1, c))
-            {
-                buttons[r-1][c].mousePressed();
-                System.out.println("four");
-            }
+      marked = !marked;
+      if (marked == false)
+      {
+        clicked = false;
+      }
+    } else if (bombs.contains(this) && marked ==false)
+    {
+      displayLosingMessage();
+    } else if (countBombs(r, c)>0)
+    {
+      setLabel(""+(countBombs(r, c)));
+    } else
+    {  
 
-            if (!buttons[r][c+1].isMarked() && isValid(r, c+1))
-            {
-                buttons[r][c+1].mousePressed();
-            }
-            if (!buttons[r+1][c+1].isMarked() && isValid(r+1, c+1))
-            {
-                buttons[r+1][c+1].mousePressed();
-            }
-            if (!buttons[r+1][c].isMarked() && isValid(r+1, c))
-            {
-                buttons[r+1][c].mousePressed();
-            }
-            if ( !buttons[r+1][c-1].isMarked() && isValid(r+1, c-1))
-            {
-                buttons[r+1][c-1].mousePressed();
-            }
-            if (!buttons[r][c-1].isMarked() && isValid(r, c-1))
-            {
-                buttons[r][c-1].mousePressed();
-            }
-            if (!buttons[r-1][c-1].isMarked() && isValid(r-1, c-1))
-            {
-                buttons[r-1][c-1].mousePressed();
-            }   
-        }
+       //is Valid must be the first one not isClicked. If the first argument is false then the code will automatically crash without accessing any of the other functions
+      if (isValid(r-1, c) && buttons[r-1][c].isClicked() == false)
+      {
+        buttons[r-1][c].mousePressed();
+      }
+      if (isValid(r, c+1) && buttons[r][c+1].isClicked() == false)
+      {
+        buttons[r][c+1].mousePressed();
+      }
+      if (isValid(r+1, c) && buttons[r+1][c].isClicked() == false)
+      {
+        buttons[r+1][c].mousePressed();
+      }
+      if (isValid(r, c-1) && buttons[r][c-1].isClicked() == false)
+      {
+        buttons[r][c-1].mousePressed();
+      }
+    }
   }
 
   public void draw () 
   {    
     if (marked)
       fill(0);
-    else if( clicked && bombs.contains(this) ) 
-     fill(255,0,0);
+    else if ( clicked && bombs.contains(this) ) 
+      fill(255, 0, 0);
     else if (clicked)
       fill( 200 );
     else 
@@ -172,8 +155,8 @@ public class MSButton
   public boolean isValid(int r, int c)
   {
     //your code here
-    if(r>=0 && r<NUM_ROWS && c >= 0 && c <NUM_COLS){
-        return true;
+    if (r>=0 && r<NUM_ROWS && c >= 0 && c <NUM_COLS) {
+      return true;
     }
     return false;
   }
@@ -182,40 +165,39 @@ public class MSButton
     int numBombs = 0;
     //your code here
     //took out the isMarked() function bc it wont run when the button is unmarked (clicked on) and therefore not show the label
-    if (bombs.contains(buttons[row-1][col])&& isValid(row-1, col))
+    if (isValid(row-1, col) && bombs.contains(buttons[row-1][col]))
     {
-        numBombs++;
+      numBombs++;
     }
-    if (bombs.contains(buttons[row-1][col+1]) && isValid(row-1, col+1))
+    if (isValid(row-1, col+1) && bombs.contains(buttons[row-1][col+1]))
     {
-        numBombs++;
+      numBombs++;
     }
-    if (bombs.contains(buttons[row][col+1])&& isValid(row, col+1))
+    if (isValid(row, col+1) && bombs.contains(buttons[row][col+1]))
     {
-        numBombs++;
+      numBombs++;
     }
-    if (bombs.contains(buttons[row+1][col+1])&& isValid(row+1, col+1))
+    if (isValid(row+1, col+1)&& bombs.contains(buttons[row+1][col+1]))
     {
-        numBombs++;
+      numBombs++;
     }
-    if (bombs.contains(buttons[row+1][col]) && isValid(row+1, col))
+    if (isValid(row+1, col) && bombs.contains(buttons[row+1][col]))
     {
-        numBombs++;
+      numBombs++;
     }
-    if (bombs.contains(buttons[row+1][col-1]) && isValid(row+1, col-1))
+    if (isValid(row+1, col-1) && bombs.contains(buttons[row+1][col-1]))
     {
-        numBombs++;
+      numBombs++;
     }
-    if (bombs.contains(buttons[row][col-1]) && isValid(row, col-1))
+    if (isValid(row, col-1) && bombs.contains(buttons[row][col-1]))
     {
-        numBombs++;
+      numBombs++;
     }
-    if (bombs.contains(buttons[row-1][col-1]) && isValid(row-1, col-1))
+    if (isValid(row-1, col-1) && bombs.contains(buttons[row-1][col-1]))
     {
-        numBombs++;
+      numBombs++;
     }
     return numBombs;
   }
 }
-
 
