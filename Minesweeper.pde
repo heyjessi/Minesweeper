@@ -29,7 +29,7 @@ public void setBombs()
 {
   bombs = new ArrayList <MSButton>();
   //your code
-  for(int i =0; i< 20; i++)
+  for(int i =0; i< (NUM_ROWS*NUM_COLS)/6; i++)
   {
       int row = (int)(Math.random()*NUM_ROWS);
       int col = (int)(Math.random()*NUM_COLS);
@@ -58,6 +58,14 @@ public void displayLosingMessage()
 {
   //your code here
   System.out.println("You lose!");
+  buttons[10][6].setLabel("Y");
+  buttons[10][7].setLabel("O");
+  buttons[10][8].setLabel("U");
+  buttons[10][9].setLabel(" ");
+  buttons[10][10].setLabel("L");
+  buttons[10][11].setLabel("O");
+  buttons[10][12].setLabel("S");
+  buttons[10][13].setLabel("E");
 }
 public void displayWinningMessage()
 {
